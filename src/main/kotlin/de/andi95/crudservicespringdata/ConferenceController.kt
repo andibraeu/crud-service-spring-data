@@ -58,6 +58,7 @@ class ConferenceController(@Autowired val conferenceRepository: ConferenceReposi
     fun `delete single element`(@PathVariable id: String) :ResponseEntity<HttpStatus> {
         val conference = conferenceRepository.findById(id)
         return if (conference.isPresent) {
+            conferenceRepository.delete(conference.get())
             noContent().build()
         } else notFound().build()
 
