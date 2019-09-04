@@ -42,10 +42,12 @@ class ConferenceController(@Autowired val conferenceRepository: ConferenceReposi
     @PutMapping("/{id}")
     fun `update single element`(@PathVariable id: String, @RequestBody conference: Conference) :ResponseEntity<Conference> {
         val oldConference = conferenceRepository.findById(id)
-        val savedConference = conferenceRepository.save(conference)
         return if (oldConference.isPresent) {
+            conference.id = oldConference.get().id
+            val savedConference = conferenceRepository.save(conference)
             ok(savedConference)
         } else {
+            val savedConference = conferenceRepository.save(conference)
             val uri = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
                     .buildAndExpand(savedConference.id)

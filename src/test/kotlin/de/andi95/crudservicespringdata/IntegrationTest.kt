@@ -60,6 +60,13 @@ class IntegrationTest(@Autowired val client: WebTestClient,
                 .isOk
                 .expectBody()
                 .jsonPath("participants").isEqualTo(numberOfParticipants)
+
+        client.get().uri(locationHeader)
+                .exchange()
+                .expectStatus()
+                .isOk
+                .expectBody()
+                .jsonPath("participants").isEqualTo(numberOfParticipants)
     }
 
     @Test
